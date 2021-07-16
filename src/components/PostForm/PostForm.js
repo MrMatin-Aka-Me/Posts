@@ -1,68 +1,63 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useContext, useRef } from 'react'
+import PostsContext from '../../contexts/PostsContext';
+import { editCancel, editChange, editSubmit } from '../../store/actions';
 
-const empty = {
-    id: 0,
-    author: {
-        avatar: 'https://lms.openjs.io/logo_js.svg',
-        name: 'OpenJS',
-    },
-    content: '',
-    photo: null,
-    hit: false,
-    likes: 0,
-    likedByMe: false,
-    hidden: false,
-    tags: null,
-    created: 0,
-};
 
-function PostForm({edited=empty, onSave}) {
-    const [post, setPost] = useState(edited);
+function PostForm() {
+    const { state: {edited}, dispatch } = useContext(PostsContext);
     const firstFocusEl = useRef(null);
-    useEffect(() => {
-        setPost(edited);
-    }, [edited]);
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        const parsed = post.tags?.map(o => o.replace('#', '')).filter(o => o.trim() !== '') || [];
-        const tags = parsed.length !== 0 ? parsed : null;
-        onSave({ 
-            ...post, 
-            id: post.id || Date.now(), 
-            created: post.created || Date.now(), 
-            tags, 
-            photo: post.photo?.url ? { alt: '', ...post.photo } : null 
-        });
-        setPost(empty);
+        dispatch(editSubmit());
+        //dispatch({type: 'POST_EDIT_SUBMIT'});
+        //submit();
         firstFocusEl.current.focus();
     };
 
     const handleChange = (evt) => {
         const { name, value } = evt.target;
-        if (name === 'tags') {
-            const parsed = value.split(' ');
-            setPost((prevState) => ({ ...prevState, [name]: parsed }));
-            return;
-        }
+        dispatch(editChange(name, value));
+        //dispatch({type: 'POST_EDIT_CHANGE', payload: {name, value}});
+        //change({name, value});
+    };
 
-        setPost((prevState) => ({ ...prevState, [name]: value }));
+    const handleReset = (evt) => {
+        evt.preventDefault();
+        dispatch(editCancel());
+        //dispatch({type: 'POST_EDIT_CANCEL'});
+        //cancel();
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <textarea 
-                ref={firstFocusEl} 
-                name="content" 
-                placeholder="content" 
-                value={post.content || ''} 
-                onChange={handleChange}/>
-            <input 
-                name="tags" 
-                placeholder="tags" 
-                value={post.tags?.join(' ') || ''} 
-                onChange={handleChange}/>
+            <textarea
+                ref={firstFocusEl}
+                name="content"
+                placeholder="content"
+                value={edited.content || ''}
+                onChange={handleChange}
+            />
+            <input
+                name="tags"
+                placeholder="tags"
+                value={edited.tags?.join(' ') || ''}
+                onChange={handleChange}
+            />
+            <input
+                name="photo"
+                placeholder="photo"
+                value={edited.photo?.url || ''}
+                onChange={handleChange}
+            />
+            <input
+                name="alt"
+                placeholder="alt"
+                value={edited.photo?.alt || ''}
+                onChange={handleChange}
+            />
             <button>Ok</button>
+            {edited.id !== 0 && <button onClick={handleReset}>Отменить</button>}
         </form>
     )
 }
