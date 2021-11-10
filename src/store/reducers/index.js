@@ -12,8 +12,8 @@ import {
 const empty = {
     id: 0,
     author: {
-        avatar: 'https://lms.openjs.io/logo_js.svg',
-        name: 'OpenJS',
+        avatar: 'https://ikonki.svgpng.ru/wp-content/uploads/2021/02/Inkognitolsvg.svg',
+        name: 'Matin',
     },
     content: '',
     photo: null,
@@ -30,7 +30,7 @@ export const initialState = {
     edited: empty,
 };
 
-export const reducer = (state, action) => {
+export const reducer = (state = initialState, action) => {
     switch (action.type) {
         case POST_EDIT_SUBMIT:
             return reduceSubmit(state, action);

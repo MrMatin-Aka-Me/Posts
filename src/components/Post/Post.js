@@ -1,13 +1,14 @@
-import React, {useContext} from 'react';
-import PostsContext from '../../contexts/PostsContext';
+import React from 'react';
+//import PostsContext from '../../contexts/PostsContext';
 import Tags from '../Tags/Tags';
 import './Post.css';
 import {like, remove, hide, edit, show} from '../../store/actions';
+import {useDispatch} from 'react-redux';
 
 function Post({post}) {
     const {author} = post;
     const {photo} = post;    
-    const {dispatch} = useContext(PostsContext);
+    const dispatch = useDispatch();
     
     const handleLike = () => {
         dispatch(like(post.id));
@@ -65,7 +66,7 @@ function Post({post}) {
         <footer>
             <span className="Post-likes" onClick={handleLike}>
                 <img 
-                src={post.likedByMe ? "https://lms.openjs.io/liked.svg" : "https://lms.openjs.io/unliked.svg"} 
+                src={post.likedByMe ? "https://itchief.ru/assets/images/other/heart.svg" : "https://img.icons8.com/ios/500/like--v2.png"} 
                 alt="likes" 
                 width="20" 
                 height="20"
