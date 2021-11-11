@@ -1,5 +1,4 @@
 import React from 'react';
-//import PostsContext from '../../contexts/PostsContext';
 import Tags from '../Tags/Tags';
 import './Post.css';
 import { like, remove, hide, edit, show } from '../../store/actions';
@@ -12,27 +11,22 @@ function Post({ post }) {
 
     const handleLike = () => {
         dispatch(like(post.id));
-        //like(post.id);
     };
 
     const handleRemove = () => {
-        dispatch(remove(post.id));
-        //remove(post.id); 
+        dispatch(remove(post.id)); 
     };
 
     const handleHide = () => {
         dispatch(hide(post.id));
-        //toggleVisibility(post.id);
     };
 
     const handleShow = () => {
         dispatch(show(post.id));
-        //toggleVisibility(post.id);
     };
 
     const handleEdit = () => {
         dispatch(edit(post.id));
-        //edit(post.id);  
     };
 
     if (post.hidden) {

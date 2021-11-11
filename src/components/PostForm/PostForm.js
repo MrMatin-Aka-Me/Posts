@@ -1,5 +1,4 @@
 import React, { useRef } from 'react'
-//import PostsContext from '../../contexts/PostsContext';
 import { editCancel, editChange, editSubmit } from '../../store/actions';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
@@ -12,23 +11,17 @@ function PostForm() {
     const handleSubmit = (evt) => {
         evt.preventDefault();
         dispatch(editSubmit());
-        //dispatch({type: 'POST_EDIT_SUBMIT'});
-        //submit();
         firstFocusEl.current.focus();
     };
 
     const handleChange = (evt) => {
         const { name, value } = evt.target;
         dispatch(editChange(name, value));
-        //dispatch({type: 'POST_EDIT_CHANGE', payload: {name, value}});
-        //change({name, value});
     };
 
     const handleReset = (evt) => {
         evt.preventDefault();
         dispatch(editCancel());
-        //dispatch({type: 'POST_EDIT_CANCEL'});
-        //cancel();
     };
 
     return (

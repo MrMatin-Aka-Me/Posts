@@ -152,7 +152,6 @@ const reduceSubmit = (state, action) => {
         created: edited.created || Date.now(),
         tags,
         photo: edited.photo?.url ? { alt: '', ...edited.photo } : null
-        // photo: post.photo?.url ? { alt: '', ...post.photo } : null 
     };
 
     if (edited?.id === 0) {
